@@ -5,48 +5,48 @@
   <img src="https://img.shields.io/badge/Category-Embedded-green?style=for-the-badge" alt="Embedded"/>
 </p>
 
-# 🏥 Saline Level Monitoring System
+# ðŸ¥ Saline Level Monitoring System
 
-> An Arduino-based IV saline drip monitoring system with load cell sensing, real-time LCD display, multi-level audio/visual alarms, and drip rate calculation — designed for hospital environments.
+> An Arduino-based IV saline drip monitoring system with load cell sensing, real-time LCD display, multi-level audio/visual alarms, and drip rate calculation â€” designed for hospital environments.
 
 ---
 
-## 🔍 Overview
+## ðŸ” Overview
 
 This project addresses a critical healthcare need: **automated monitoring of IV saline drip levels**. The system uses a load cell sensor to continuously measure the saline bag weight, calculates the remaining percentage and drip rate, and alerts nursing staff when the saline level drops below configurable thresholds.
 
 ### Key Highlights
-- ⚖️ **Precision Weighing** — HX711 24-bit ADC with load cell
-- 📊 **4 Alert Levels** — Normal → Low → Critical → Empty
-- 🔔 **Multi-Level Alarm** — Buzzer frequency increases with urgency
-- 💧 **Drip Rate Calculation** — mL/min flow rate estimation
-- 📺 **LCD Dashboard** — Live level, weight, and status display
-- 🚨 **3 LED Indicators** — Green/Yellow/Red visual status
-- 🔘 **Alarm Acknowledge** — Nurse can silence alarm with button
+- âš–ï¸ **Precision Weighing** â€” HX711 24-bit ADC with load cell
+- ðŸ“Š **4 Alert Levels** â€” Normal â†’ Low â†’ Critical â†’ Empty
+- ðŸ”” **Multi-Level Alarm** â€” Buzzer frequency increases with urgency
+- ðŸ’§ **Drip Rate Calculation** â€” mL/min flow rate estimation
+- ðŸ“º **LCD Dashboard** â€” Live level, weight, and status display
+- ðŸš¨ **3 LED Indicators** â€” Green/Yellow/Red visual status
+- ðŸ”˜ **Alarm Acknowledge** â€” Nurse can silence alarm with button
 
 ---
 
-## 🏗️ System Architecture
+## ðŸ—ï¸ System Architecture
 
 ```
-┌──────────────────┐     ┌──────────────────────────────┐
-│   Load Cell      │     │        Arduino Uno            │
-│   + HX711 ADC    ├────►│                               │
-│   (Saline Bag)   │     │  ┌────────────────────────┐  │
-└──────────────────┘     │  │  State Machine:        │  │──► 📺 LCD Display
-                         │  │  NORMAL → LOW →        │  │    (16x2 I2C)
-                         │  │  CRITICAL → EMPTY      │  │
-                         │  └────────────────────────┘  │──► 🔴🟡🟢 LEDs
-                         │                               │
-  ┌──────────────┐       │  ┌────────────────────────┐  │──► 🔔 Buzzer
-  │ ACK Button   ├──────►│  │  Alarm Manager         │  │
-  └──────────────┘       │  └────────────────────────┘  │──► 📟 Serial Log
-                         └──────────────────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”     â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚   Load Cell      â”‚     â”‚        Arduino Uno            â”‚
+â”‚   + HX711 ADC    â”œâ”€â”€â”€â”€â–ºâ”‚                               â”‚
+â”‚   (Saline Bag)   â”‚     â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜     â”‚  â”‚  State Machine:        â”‚  â”‚â”€â”€â–º ðŸ“º LCD Display
+                         â”‚  â”‚  NORMAL â†’ LOW â†’        â”‚  â”‚    (16x2 I2C)
+                         â”‚  â”‚  CRITICAL â†’ EMPTY      â”‚  â”‚
+                         â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚â”€â”€â–º ðŸ”´ðŸŸ¡ðŸŸ¢ LEDs
+                         â”‚                               â”‚
+  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”       â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚â”€â”€â–º ðŸ”” Buzzer
+  â”‚ ACK Button   â”œâ”€â”€â”€â”€â”€â”€â–ºâ”‚  â”‚  Alarm Manager         â”‚  â”‚
+  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜       â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚â”€â”€â–º ðŸ“Ÿ Serial Log
+                         â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 ---
 
-## 🔌 Circuit Connections
+## ðŸ”Œ Circuit Connections
 
 | Component | Arduino Pin | Description |
 |:---------:|:-----------:|:------------|
@@ -62,34 +62,34 @@ This project addresses a critical healthcare need: **automated monitoring of IV 
 
 ---
 
-## ⚠️ Alert Levels
+## âš ï¸ Alert Levels
 
 | Level | Threshold | LED | Buzzer | LCD Display |
 |:-----:|:---------:|:---:|:------:|:------------|
-| **Normal** | > 25% | 🟢 | Silent | `OK 3.2mL/min` |
-| **Low** | ≤ 25% | 🟡 | Intermittent beep | `⚠ LOW LEVEL!` |
-| **Critical** | ≤ 10% | 🔴 | Rapid beeping | `⚠ CRITICAL!!` |
-| **Empty** | ≤ 5% | 🔴 | Continuous alarm | `⚠ EMPTY!!NURSE` |
+| **Normal** | > 25% | ðŸŸ¢ | Silent | `OK 3.2mL/min` |
+| **Low** | â‰¤ 25% | ðŸŸ¡ | Intermittent beep | `âš  LOW LEVEL!` |
+| **Critical** | â‰¤ 10% | ðŸ”´ | Rapid beeping | `âš  CRITICAL!!` |
+| **Empty** | â‰¤ 5% | ðŸ”´ | Continuous alarm | `âš  EMPTY!!NURSE` |
 
 ---
 
-## 📁 File Structure
+## ðŸ“ File Structure
 
 ```
 Embedded-Saline-Level-Monitor/
-├── src/
-│   └── main.cpp              # Main application
-├── docs/
-│   └── circuit_diagram.md
-├── platformio.ini            # PlatformIO configuration
-├── .gitignore
-├── LICENSE
-└── README.md
+â”œâ”€â”€ src/
+â”‚   â””â”€â”€ main.cpp              # Main application
+â”œâ”€â”€ docs/
+â”‚   â””â”€â”€ circuit_diagram.md
+â”œâ”€â”€ platformio.ini            # PlatformIO configuration
+â”œâ”€â”€ .gitignore
+â”œâ”€â”€ LICENSE
+â””â”€â”€ README.md
 ```
 
 ---
 
-## 🚀 Getting Started
+## ðŸš€ Getting Started
 
 ```bash
 git clone https://github.com/Harikrishna_08/Embedded-Saline-Level-Monitor.git
@@ -104,13 +104,13 @@ pio device monitor
 
 ---
 
-## 👨‍💻 Author
+## ðŸ‘¨â€ðŸ’» Author
 
-**Daggolu Hari Krishna** — B.Tech ECE | JNTUA College of Engineering, Kalikiri
+**Daggolu Hari Krishna** â€” B.Tech ECE | JNTUA College of Engineering, Kalikiri
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat-square&logo=linkedin)](https://linkedin.com/in/harikrishnadaggolu)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/contacthari88/)
 [![GitHub](https://img.shields.io/badge/GitHub-Harikrishna__08-black?style=flat-square&logo=github)](https://github.com/Harikrishna_08)
 
 ---
 
-<p align="center">⭐ Star this repo if you found it useful! ⭐</p>
+<p align="center">â­ Star this repo if you found it useful! â­</p>
